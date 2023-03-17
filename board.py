@@ -88,6 +88,14 @@ class Board:
         dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
         return self._get_actions_inner(x, y, dirs)
 
+    def get_piece_actions(self,x,y):
+
+        if (x + y) % 2 == 0:
+            return self.even_actions(x, y)
+        else:
+            return self.odd_actions(x, y)
+
+
     def get_valid_actions(self) -> List[Action]:
         """
         Get all actions for the current player
@@ -111,8 +119,29 @@ class Board:
     def is_terminal(self):
         """
         Perguntar ao prof!!!
+        ver se o jogo acabou
         """
-        pass
+
+        #0-continue, 1- P1 win 2- P2 win 3- Draw
+        c1 = c2 = 0
+
+        for v in self.grid:
+            if v == 1:
+                c1 += 1
+            elif v == 2:
+                c2 += 1
+
+
+        if c1 == 0:
+            return 2
+        elif c2 == 0:
+            return 1
+        elif c1 == c2 == 1 and len(list(filter(lambda x: isinstance(x, Eat), self.get_valid_actions()))) == 0:
+            return 3
+
+        return 0
+
+
 
 
 @dataclass
@@ -120,16 +149,23 @@ class Move:
     source: Tuple[int, int]
     dest: Tuple[int, int]
     board: Board
+    change_player: bool = True
 
     def execute(self):
         t = self.board.get_piece(self.source[0], self.source[1])
         self.board.set_piece(self.source[0], self.source[1], 0)
         self.board.set_piece(self.dest[0], self.dest[1], t)
 
+        if self.change_player:
+            self.board.next_player = 3 - self.board.next_player
+
     def undo(self):
         t = self.board.get_piece(self.dest[0], self.dest[1])
         self.board.set_piece(self.dest[0], self.dest[1], 0)
         self.board.set_piece(self.source[0], self.source[1], t)
+
+        if self.change_player:
+            self.board.next_player = 3 - self.board.next_player
 
 
 @dataclass
@@ -142,6 +178,7 @@ class Eat:
     def execute(self):
         Move(self.hunter, self.dest, self.board).execute()
         self.board.set_piece(self.target[0], self.target[1], 0)
+
 
     def undo(self):
         t = 3 - self.board.get_piece(self.dest[0], self.dest[1])
