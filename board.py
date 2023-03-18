@@ -1,13 +1,13 @@
-from typing import List, Protocol, Tuple
+from typing import List, Literal, Protocol, Tuple
 from dataclasses import dataclass
 
 
 class Action(Protocol):
-    def execute(self):
-        ...
+    def execute(self) -> None:
+        pass
 
-    def undo(self):
-        ...
+    def undo(self) -> None:
+        pass
 
 
 @dataclass
@@ -21,16 +21,12 @@ class Board:
         self,
         num_rows: int,
         num_cols: int,
-        next_player: int,
+        next_player: int = 1,
         grid: List[int] = [],
     ) -> None:
-        self.num_rows = num_rows
-        self.num_cols = num_cols
+        self.num_rows, self.num_cols = num_rows, num_cols
         self.next_player = next_player
-        if len(grid) != 0:
-            self.grid = grid
-        else:
-            self.grid = initial_board(num_rows, num_cols)
+        self.grid = grid or initial_board(num_rows, num_cols)
 
     def is_valid_pos(self, x: int, y: int) -> bool:
         return 0 <= x < self.num_cols and 0 <= y < self.num_rows
@@ -65,7 +61,7 @@ class Board:
             ):
                 ret.append(Eat((x, y), (x2, y2), (dx, dy), self))
 
-        eats = list(filter(lambda x: isinstance(x, Eat), ret))
+        eats: List[Action] = [action for action in ret if isinstance(action, Eat)]
         if len(eats) != 0:
             return eats
         return ret
@@ -88,13 +84,14 @@ class Board:
         dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
         return self._get_actions_inner(x, y, dirs)
 
-    def get_piece_actions(self,x,y):
-
+    def get_piece_actions(self, x, y):
+        """
+        Get valid actions for a particular piece
+        """
         if (x + y) % 2 == 0:
             return self.even_actions(x, y)
         else:
             return self.odd_actions(x, y)
-
 
     def get_valid_actions(self) -> List[Action]:
         """
@@ -111,37 +108,59 @@ class Board:
                 else:
                     ret += self.odd_actions(x, y)
 
-        eats = list(filter(lambda x: isinstance(x, Eat), ret))
+        eats: List[Action] = [action for action in ret if isinstance(action, Eat)]
         if len(eats) != 0:
             return eats
         return ret
 
-    def is_terminal(self):
+    def is_terminal(self) -> Literal[0, 1, 2, 3]:
         """
-        Perguntar ao prof!!!
-        ver se o jogo acabou
+        Get game result
+        0 - Not terminal continue game
+        1 - Player_1 wins
+        2 - Player_2 wins
         """
 
-        #0-continue, 1- P1 win 2- P2 win 3- Draw
-        c1 = c2 = 0
+        # 0-continue, 1- P1 win 2- P2 win 3- Draw
+        count1 = count2 = 0
 
         for v in self.grid:
             if v == 1:
-                c1 += 1
+                count1 += 1
             elif v == 2:
-                c2 += 1
+                count2 += 1
 
-
-        if c1 == 0:
+        if count1 == 0:
             return 2
-        elif c2 == 0:
+        elif count2 == 0:
             return 1
-        elif c1 == c2 == 1 and len(list(filter(lambda x: isinstance(x, Eat), self.get_valid_actions()))) == 0:
+        elif (
+            count1 == count2 == 1
+            and len(
+                [
+                    action
+                    for action in self.get_valid_actions()
+                    if isinstance(action, Eat)
+                ]
+            )
+            == 0
+        ):
             return 3
 
         return 0
 
+    def __str__(self) -> str:
+        x = self.num_cols
+        y = self.num_rows
 
+        matrix = [[self.get_piece(i, j) for i in range(x)] for j in range(y)]
+
+        ret = ""
+        for row in matrix:
+            ret += " ".join(map(str, row)) + "\n"
+
+        ret += f"next player: {self.next_player}"
+        return ret
 
 
 @dataclass
@@ -174,23 +193,49 @@ class Eat:
     target: Tuple[int, int]
     dest: Tuple[int, int]
     board: Board
+    changed_turn: bool = False
 
     def execute(self):
-        Move(self.hunter, self.dest, self.board).execute()
+        Move(self.hunter, self.dest, self.board, change_player=False).execute()
         self.board.set_piece(self.target[0], self.target[1], 0)
 
+        if not self.killing_streak():
+            self.board.next_player = 3 - self.board.next_player
+            self.changed_turn = True
 
     def undo(self):
         t = 3 - self.board.get_piece(self.dest[0], self.dest[1])
-        Move(self.hunter, self.dest, self.board).undo()
+        Move(self.hunter, self.dest, self.board, change_player=False).undo()
         self.board.set_piece(self.target[0], self.target[1], t)
+
+        if self.changed_turn:
+            self.board.next_player = 3 - self.board.next_player
+
+    def killing_streak(self):
+        """
+        caso peça jogada ainda poder comer
+        o jogador continua a jogar com esse mesmo objeto
+        """
+
+        return (
+            len(
+                [
+                    ac
+                    for ac in self.board.get_piece_actions(self.dest[0], self.dest[1])
+                    if isinstance(ac, Eat)
+                ]
+            )
+            > 0
+        )
 
 
 def initial_board(num_rows: int, num_cols: int) -> List[int]:
-    # fmt: off
-    return [1,1,1,1,1,
-            1,1,1,1,1,
-            1,1,0,2,2,
-            2,2,2,2,2,
-            2,2,2,2,2]
-    # fmt: on
+    assert (
+        num_rows % 2 == 1 and num_cols % 2 == 1
+    ), f"num_rows({num_rows}) and num_cols({num_cols}) must be odd"
+
+    return (
+        [1] * (num_rows * (num_cols // 2) + num_rows // 2)
+        + [0]
+        + [2] * (num_rows * (num_cols // 2) + num_rows // 2)
+    )
