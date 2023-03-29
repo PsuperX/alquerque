@@ -4,6 +4,8 @@ import random
 from state import State
 from typing import Callable
 from board import Board
+from gui import Renderer
+import pygame
 
 
 @dataclass
@@ -12,9 +14,11 @@ class Game:
     # TODO: fix this
     player1_AI: Callable[[int], None]
     player2_AI: Callable[[int], None]
+    renderer: Renderer = None
 
     def start(self, log_mov=False) -> int:
-        self.state = State(Board(5, 5))
+        self.state = State(Board(self.state.board.num_rows, self.state.board.num_cols))
+
         result = -1
         while True:
             if self.state.board.next_player == 1:
@@ -28,6 +32,9 @@ class Game:
             result = self.state.board.is_terminal()
             if result != 0:
                 break
+
+            if self.renderer:
+                self.renderer.render(self.state)
 
         if result == 3:
             print("Nobothy wins :/")
@@ -103,7 +110,7 @@ def minimax(
     evaluate_func,
 ) -> float:
     if depth == 0 or state.board.is_terminal() != 0:
-        return evaluate_func(state) * (1 if player == 1 else -1)
+        return evaluate_func(state)
 
     if maximizing:
         max_eval = float("-inf")

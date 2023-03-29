@@ -2,6 +2,7 @@ from board import Board, initial_board
 from state import State
 from game import Game, execute_minimax_move, execute_random_move
 import random
+from gui import Renderer
 
 
 def temp(state):
@@ -16,16 +17,19 @@ def eval_1(state: State):
         elif v == 2:
             count2 += 1
 
-    # TODO: wtf
-    return count2 - count1
+    return count1 - count2
 
 
 # s = State(Board(5, 5))
 # game = Game(s, execute_random_move, execute_random_move)
 # game.run_n_matches(1000, log_moves=False)
+num_rows = 7
+num_cols = 5
 
-s = State(Board(5, 5))
-game = Game(s, execute_minimax_move(eval_1, 5), execute_random_move)
+s = State(Board(num_rows, num_cols))
+print(s.board)
+g = Renderer(num_rows, num_cols)
+game = Game(s, execute_minimax_move(eval_1, 2), execute_random_move, renderer=g)
 game.run_n_matches(3, log_moves=True)
 
 # # fmt: off

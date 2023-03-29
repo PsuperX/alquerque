@@ -33,7 +33,7 @@ class Board:
 
     def get_piece(self, x: int, y: int) -> int:
         if self.is_valid_pos(x, y):
-            return self.grid[(y * self.num_rows) + x]
+            return self.grid[(y * self.num_cols) + x]
         raise IndexError(f"No such piece x:{x} y:{y}")
 
     def set_piece(self, x: int, y: int, val: int) -> None:
@@ -234,8 +234,11 @@ def initial_board(num_rows: int, num_cols: int) -> List[int]:
         num_rows % 2 == 1 and num_cols % 2 == 1
     ), f"num_rows({num_rows}) and num_cols({num_cols}) must be odd"
 
-    return (
-        [1] * (num_rows * (num_cols // 2) + num_rows // 2)
+    # FIX: not working with non square boards?
+    ret = (
+        [1] * (num_cols * (num_rows // 2) + num_cols // 2)
         + [0]
-        + [2] * (num_rows * (num_cols // 2) + num_rows // 2)
+        + [2] * (num_cols * (num_rows // 2) + num_cols // 2)
     )
+    assert len(ret) == num_cols * num_rows
+    return ret
