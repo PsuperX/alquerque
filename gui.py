@@ -1,5 +1,5 @@
+from typing import Tuple
 import pygame
-from board import Board
 from state import State
 
 
@@ -12,7 +12,13 @@ BOARD_COLOR = (0, 0, 0)  # RGB puerple?
 
 
 class Renderer:
-    def __init__(self, num_cols, num_rows):
+    width: int
+    height: int
+    screen: pygame.Surface
+    font: pygame.font.Font
+    clock: pygame.time.Clock
+
+    def __init__(self, num_rows, num_cols):
         self.width = num_cols * CELL_SIZE
         self.height = (num_rows + 1) * CELL_SIZE
 
@@ -23,24 +29,27 @@ class Renderer:
         pygame.display.set_caption("Alquercas")  # display game name
         self.font = pygame.font.SysFont("Arial", 80)
         self.clock = pygame.time.Clock()  # start clock
-        # (relevant for AIs to spend some time before moves so that we can visualize)
 
     def render(self, state: State):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
         self.screen.fill(BOARD_COLOR)
 
         for row in range(state.board.num_rows):
             for col in range(state.board.num_cols):
                 color = EMPTY_CELL_COLOR  # if no player played in the circle, fill it with the empty cell color
-                if state.board.get_piece(row, col) == 1:
+                if state.board.get_piece(col, row) == 1:
                     color = PLAYER_1_COLOR  # player 1 already played here
-                elif state.board.get_piece(row, col) == 2:
+                elif state.board.get_piece(col, row) == 2:
                     color = PLAYER_2_COLOR  # player 2 already played here
                 pygame.draw.circle(
                     self.screen,
                     color,
                     (
                         int(col * CELL_SIZE + CELL_SIZE / 2),
-                        int(row * CELL_SIZE + CELL_SIZE + CELL_SIZE / 2),
+                        int(row * CELL_SIZE + CELL_SIZE / 2),
                     ),
                     int(CELL_SIZE / 2.2),
                 )
@@ -48,3 +57,21 @@ class Renderer:
         pygame.display.flip()  # show the board
         self.clock.tick(60)
         pygame.time.wait(500)
+
+    def mouse_to_grid(self) -> Tuple[int, int]:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+
+        while not pygame.mouse.get_pressed()[0]:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+
+            pygame.time.wait(100)
+
+        mouse = pygame.mouse.get_pos()
+
+        x = mouse[0] // CELL_SIZE
+        y = mouse[1] // CELL_SIZE
+        return (x, y)

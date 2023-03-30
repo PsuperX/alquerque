@@ -4,10 +4,16 @@ from dataclasses import dataclass
 
 class Action(Protocol):
     def execute(self) -> None:
-        pass
+        ...
 
     def undo(self) -> None:
-        pass
+        ...
+
+    def get_piece(self) -> Tuple[int, int]:
+        ...
+
+    def get_dest(self) -> Tuple[int, int]:
+        ...
 
 
 @dataclass
@@ -32,14 +38,20 @@ class Board:
         return 0 <= x < self.num_cols and 0 <= y < self.num_rows
 
     def get_piece(self, x: int, y: int) -> int:
-        if self.is_valid_pos(x, y):
-            return self.grid[(y * self.num_cols) + x]
-        raise IndexError(f"No such piece x:{x} y:{y}")
+        if not self.is_valid_pos(x, y):
+            raise IndexError(f"No such piece x:{x} y:{y}")
+        return self.get_piece_unchecked(x, y)
+
+    def get_piece_unchecked(self, x: int, y: int) -> int:
+        return self.grid[(y * self.num_cols) + x]
 
     def set_piece(self, x: int, y: int, val: int) -> None:
         if not self.is_valid_pos(x, y):
             raise IndexError(f"No such piece x:{x} y:{y}")
-        self.grid[(y * self.num_rows) + x] = val
+        self.set_piece_unchecked(x, y, val)
+
+    def set_piece_unchecked(self, x: int, y: int, val: int) -> None:
+        self.grid[(y * self.num_cols) + x] = val
 
     def _get_actions_inner(
         self, x: int, y: int, dirs: List[Tuple[int, int]]
@@ -50,14 +62,14 @@ class Board:
             y2 = y + dir[1]
             if (
                 not self.is_valid_pos(x2, y2)
-                or self.get_piece(x2, y2) == self.next_player
+                or self.get_piece_unchecked(x2, y2) == self.next_player
             ):
                 continue
-            elif self.get_piece(x2, y2) == 0:
+            elif self.get_piece_unchecked(x2, y2) == 0:
                 ret.append(Move((x, y), (x2, y2), self))
             elif (
                 self.is_valid_pos(dx := x + 2 * dir[0], dy := y + 2 * dir[1])
-                and self.get_piece(dx, dy) == 0
+                and self.get_piece_unchecked(dx, dy) == 0
             ):
                 ret.append(Eat((x, y), (x2, y2), (dx, dy), self))
 
@@ -84,7 +96,7 @@ class Board:
         dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
         return self._get_actions_inner(x, y, dirs)
 
-    def get_piece_actions(self, x, y):
+    def get_piece_actions(self, x: int, y: int):
         """
         Get valid actions for a particular piece
         """
@@ -124,6 +136,7 @@ class Board:
         # 0-continue, 1- P1 win 2- P2 win 3- Draw
         count1 = count2 = 0
 
+        # TODO: Maybe cache this?
         for v in self.grid:
             if v == 1:
                 count1 += 1
@@ -186,6 +199,12 @@ class Move:
         if self.change_player:
             self.board.next_player = 3 - self.board.next_player
 
+    def get_piece(self) -> Tuple[int, int]:
+        return self.source
+
+    def get_dest(self) -> Tuple[int, int]:
+        return self.dest
+
 
 @dataclass
 class Eat:
@@ -211,6 +230,12 @@ class Eat:
         if self.changed_turn:
             self.board.next_player = 3 - self.board.next_player
 
+    def get_piece(self) -> Tuple[int, int]:
+        return self.hunter
+
+    def get_dest(self) -> Tuple[int, int]:
+        return self.dest
+
     def killing_streak(self):
         """
         caso peça jogada ainda poder comer
@@ -234,7 +259,6 @@ def initial_board(num_rows: int, num_cols: int) -> List[int]:
         num_rows % 2 == 1 and num_cols % 2 == 1
     ), f"num_rows({num_rows}) and num_cols({num_cols}) must be odd"
 
-    # FIX: not working with non square boards?
     ret = (
         [1] * (num_cols * (num_rows // 2) + num_cols // 2)
         + [0]

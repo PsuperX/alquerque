@@ -1,6 +1,6 @@
 from board import Board, initial_board
 from state import State
-from game import Game, execute_minimax_move, execute_random_move
+from game import Game, execute_minimax_move, execute_player_move, execute_random_move
 import random
 from gui import Renderer
 
@@ -29,7 +29,7 @@ num_cols = 5
 s = State(Board(num_rows, num_cols))
 print(s.board)
 g = Renderer(num_rows, num_cols)
-game = Game(s, execute_minimax_move(eval_1, 2), execute_random_move, renderer=g)
+game = Game(s, execute_minimax_move(eval_1, 10), execute_player_move, renderer=g)
 game.run_n_matches(3, log_moves=True)
 
 # # fmt: off

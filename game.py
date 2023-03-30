@@ -3,6 +3,7 @@ import time
 import random
 from state import State
 from typing import Callable
+from typing_extensions import Self
 from board import Board
 from gui import Renderer
 import pygame
@@ -11,10 +12,9 @@ import pygame
 @dataclass
 class Game:
     state: State
-    # TODO: fix this
-    player1_AI: Callable[[int], None]
-    player2_AI: Callable[[int], None]
-    renderer: Renderer = None
+    player1_AI: Callable[[Self], None]
+    player2_AI: Callable[[Self], None]
+    renderer: Renderer | None = None
 
     def start(self, log_mov=False) -> int:
         self.state = State(Board(self.state.board.num_rows, self.state.board.num_cols))
@@ -70,15 +70,22 @@ def execute_random_move(game: Game):
     game.state.execute(move)
 
 
-# TODO: func type
-def execute_minimax_move(evaluate_func, depth: int):
+def execute_minimax_move(
+    evaluate_func: Callable[[State], float], depth: int
+) -> Callable[[Game], None]:
     def execute_minimax_move_aux(game: Game):
         """
         updates the game state to the best possible move (uses minimax to determine it)
         """
         best_move = None
         best_eval = float("-inf")
-        for move in game.state.board.get_valid_actions():
+        actions = game.state.board.get_valid_actions()
+        if len(actions) == 1:
+            # There isn't much to do and this can take a longggggg time
+            game.state.execute(actions[0])
+            return
+
+        for move in actions:
             game.state.execute(move)
             new_state_eval = minimax(
                 game.state,
@@ -107,7 +114,7 @@ def minimax(
     beta: float,
     maximizing: bool,
     player: int,
-    evaluate_func,
+    evaluate_func: Callable[[State], float],
 ) -> float:
     if depth == 0 or state.board.is_terminal() != 0:
         return evaluate_func(state)
@@ -134,3 +141,30 @@ def minimax(
             if beta <= alpha:
                 break
         return min_eval
+
+
+def execute_player_move(game: Game):
+    assert game.renderer is not None, "Where is screen"
+
+    board = game.state.board
+    actions = board.get_valid_actions()
+    selected = []
+    while True:
+        print("Waiting player input...")
+
+        # TODO: hightlight pieces with actions
+        mouse = game.renderer.mouse_to_grid()
+
+        for action in selected:
+            if mouse == action.get_dest():
+                game.state.execute(action)
+                return
+
+        selected.clear()
+        for action in actions:
+            if mouse == action.get_piece():
+                print(f"Player selected {mouse[0]}, {mouse[1]}")
+                selected.append(action)
+
+        print(selected)
+        pygame.time.wait(100)
