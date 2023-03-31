@@ -86,70 +86,29 @@ class Renderer:
             pygame.draw.line(self.screen, "white", start, end, 5)
 
         # Diagonal
-        size_min = min(state.board.num_cols, state.board.num_rows)
-        pygame.draw.line(
-            self.screen,
-            "white",
-            (CELL_SIZE // 2, CELL_SIZE // 2),
-            (
-                size_min * CELL_SIZE - CELL_SIZE // 2,
-                size_min * CELL_SIZE - CELL_SIZE // 2,
-            ),
-            5,
-        )
-        for col in range(2, state.board.num_cols, 2):
-            start = (
-                int(col * CELL_SIZE + CELL_SIZE / 2),
-                int(CELL_SIZE / 2),
-            )
-            end = (
-                int(state.board.num_cols * CELL_SIZE - CELL_SIZE / 2),
-                int((state.board.num_cols - col) * CELL_SIZE - CELL_SIZE / 2),
-            )
-            pygame.draw.line(self.screen, "white", start, end, 5)
+        for row in range(state.board.num_rows - 1):
+            for col in range(row % 2, state.board.num_cols - 1, 2):
+                start = (
+                    int(col * CELL_SIZE + CELL_SIZE / 2),
+                    int(row * CELL_SIZE + CELL_SIZE / 2),
+                )
+                end = (
+                    int((col + 1) * CELL_SIZE + CELL_SIZE / 2),
+                    int((row + 1) * CELL_SIZE + CELL_SIZE / 2),
+                )
+                pygame.draw.line(self.screen, "white", start, end, 5)
 
-        for row in range(2, state.board.num_rows, 2):
-            start = (
-                int(CELL_SIZE / 2),
-                int(row * CELL_SIZE + CELL_SIZE / 2),
-            )
-            end = (
-                int((state.board.num_rows - row) * CELL_SIZE - CELL_SIZE / 2),
-                int(state.board.num_rows * CELL_SIZE - CELL_SIZE / 2),
-            )
-            pygame.draw.line(self.screen, "white", start, end, 5)
-
-        # pygame.draw.line(
-        #     self.screen,
-        #     "white",
-        #     (CELL_SIZE // 2, size_min * CELL_SIZE - CELL_SIZE // 2),
-        #     (
-        #         size_min * CELL_SIZE - CELL_SIZE // 2,
-        #         CELL_SIZE // 2,
-        #     ),
-        #     5,
-        # )
-        for col in range(2, state.board.num_cols, 2):
-            start = (
-                int(col * CELL_SIZE + CELL_SIZE / 2),
-                int(CELL_SIZE / 2),
-            )
-            end = (
-                int(CELL_SIZE / 2),
-                int(col * CELL_SIZE + CELL_SIZE / 2),
-            )
-            pygame.draw.line(self.screen, "white", start, end, 5)
-
-        # for row in range(2, state.board.num_rows, 2):
-        #     start = (
-        #         int(state.board.num_cols * CELL_SIZE - CELL_SIZE / 2),
-        #         int(row * CELL_SIZE + CELL_SIZE / 2),
-        #     )
-        #     end = (
-        #         int((state.board.num_rows - row) * CELL_SIZE - CELL_SIZE / 2),
-        #         int(state.board.num_rows * CELL_SIZE - CELL_SIZE / 2),
-        #     )
-        #     pygame.draw.line(self.screen, "white", start, end, 5)
+        for row in range(state.board.num_rows - 1):
+            for col in range(2 - row % 2, state.board.num_cols, 2):
+                start = (
+                    int(col * CELL_SIZE + CELL_SIZE / 2),
+                    int(row * CELL_SIZE + CELL_SIZE / 2),
+                )
+                end = (
+                    int((col - 1) * CELL_SIZE + CELL_SIZE / 2),
+                    int((row + 1) * CELL_SIZE + CELL_SIZE / 2),
+                )
+                pygame.draw.line(self.screen, "white", start, end, 5)
 
     def mouse_to_grid(self) -> Tuple[int, int]:
         for event in pygame.event.get():
