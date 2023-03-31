@@ -35,7 +35,7 @@ class Renderer:
             if event.type == pygame.QUIT:
                 exit()
 
-        self.screen.fill(BOARD_COLOR)
+        self.draw_background(state)
 
         for row in range(state.board.num_rows):
             for col in range(state.board.num_cols):
@@ -58,6 +58,99 @@ class Renderer:
         self.clock.tick(60)
         pygame.time.wait(500)
 
+    def draw_background(self, state: State) -> None:
+        self.screen.fill(BOARD_COLOR)
+
+        # Horizontal
+        for row in range(state.board.num_rows):
+            start = (
+                int(CELL_SIZE / 2),
+                int(row * CELL_SIZE + CELL_SIZE / 2),
+            )
+            end = (
+                int(state.board.num_cols * CELL_SIZE - CELL_SIZE / 2),
+                int(row * CELL_SIZE + CELL_SIZE / 2),
+            )
+            pygame.draw.line(self.screen, "white", start, end, 5)
+
+        # Vertical
+        for col in range(state.board.num_cols):
+            start = (
+                int(col * CELL_SIZE + CELL_SIZE / 2),
+                int(CELL_SIZE / 2),
+            )
+            end = (
+                int(col * CELL_SIZE + CELL_SIZE / 2),
+                int(state.board.num_rows * CELL_SIZE - CELL_SIZE / 2),
+            )
+            pygame.draw.line(self.screen, "white", start, end, 5)
+
+        # Diagonal
+        size_min = min(state.board.num_cols, state.board.num_rows)
+        pygame.draw.line(
+            self.screen,
+            "white",
+            (CELL_SIZE // 2, CELL_SIZE // 2),
+            (
+                size_min * CELL_SIZE - CELL_SIZE // 2,
+                size_min * CELL_SIZE - CELL_SIZE // 2,
+            ),
+            5,
+        )
+        for col in range(2, state.board.num_cols, 2):
+            start = (
+                int(col * CELL_SIZE + CELL_SIZE / 2),
+                int(CELL_SIZE / 2),
+            )
+            end = (
+                int(state.board.num_cols * CELL_SIZE - CELL_SIZE / 2),
+                int((state.board.num_cols - col) * CELL_SIZE - CELL_SIZE / 2),
+            )
+            pygame.draw.line(self.screen, "white", start, end, 5)
+
+        for row in range(2, state.board.num_rows, 2):
+            start = (
+                int(CELL_SIZE / 2),
+                int(row * CELL_SIZE + CELL_SIZE / 2),
+            )
+            end = (
+                int((state.board.num_rows - row) * CELL_SIZE - CELL_SIZE / 2),
+                int(state.board.num_rows * CELL_SIZE - CELL_SIZE / 2),
+            )
+            pygame.draw.line(self.screen, "white", start, end, 5)
+
+        # pygame.draw.line(
+        #     self.screen,
+        #     "white",
+        #     (CELL_SIZE // 2, size_min * CELL_SIZE - CELL_SIZE // 2),
+        #     (
+        #         size_min * CELL_SIZE - CELL_SIZE // 2,
+        #         CELL_SIZE // 2,
+        #     ),
+        #     5,
+        # )
+        for col in range(2, state.board.num_cols, 2):
+            start = (
+                int(col * CELL_SIZE + CELL_SIZE / 2),
+                int(CELL_SIZE / 2),
+            )
+            end = (
+                int(CELL_SIZE / 2),
+                int(col * CELL_SIZE + CELL_SIZE / 2),
+            )
+            pygame.draw.line(self.screen, "white", start, end, 5)
+
+        # for row in range(2, state.board.num_rows, 2):
+        #     start = (
+        #         int(state.board.num_cols * CELL_SIZE - CELL_SIZE / 2),
+        #         int(row * CELL_SIZE + CELL_SIZE / 2),
+        #     )
+        #     end = (
+        #         int((state.board.num_rows - row) * CELL_SIZE - CELL_SIZE / 2),
+        #         int(state.board.num_rows * CELL_SIZE - CELL_SIZE / 2),
+        #     )
+        #     pygame.draw.line(self.screen, "white", start, end, 5)
+
     def mouse_to_grid(self) -> Tuple[int, int]:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -68,6 +161,7 @@ class Renderer:
                 if event.type == pygame.QUIT:
                     exit()
 
+            self.clock.tick(60)
             pygame.time.wait(100)
 
         mouse = pygame.mouse.get_pos()

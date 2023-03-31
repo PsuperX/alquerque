@@ -23,8 +23,8 @@ def eval_1(state: State):
 # s = State(Board(5, 5))
 # game = Game(s, execute_random_move, execute_random_move)
 # game.run_n_matches(1000, log_moves=False)
-num_rows = 7
-num_cols = 5
+num_rows = 5
+num_cols = 9
 
 s = State(Board(num_rows, num_cols))
 print(s.board)
