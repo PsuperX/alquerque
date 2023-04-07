@@ -14,10 +14,13 @@ class State:
         self.cur_hist += 1
         action.execute()
 
-    def undo(self):
+    def undo(self) -> bool:
+        if self.cur_hist == 0:
+            return False
+
         self.cur_hist -= 1
         self.history[self.cur_hist].undo()
-        pass
+        return True
 
     def redo(self):
         pass

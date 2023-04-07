@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 import time
 import random
+from eval_fncs import eval_1
 from state import State
 from typing import Callable
 from typing_extensions import Self
@@ -154,6 +155,18 @@ def execute_player_move(game: Game):
 
         # TODO: hightlight pieces with actions
         mouse = game.renderer.mouse_to_grid()
+
+        if mouse == (0, game.state.board.num_rows + 1):
+            cur_player = game.state.board.next_player
+            game.state.undo()
+            while game.state.board.next_player != cur_player:
+                if not game.state.undo():
+                    return
+            return
+
+        if mouse == (game.state.board.num_cols - 1, game.state.board.num_rows + 1):
+            execute_minimax_move(eval_1, 6)(game)
+            return
 
         for action in selected:
             if mouse == action.get_dest():

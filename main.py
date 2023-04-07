@@ -3,33 +3,49 @@ from state import State
 from game import Game, execute_minimax_move, execute_player_move, execute_random_move
 import random
 from gui import Renderer
+from eval_fncs import eval_1
 
 
+def main_menu_phase():
+    pass
+
+
+def gameplay_phase(num_rows, num_cols, renderer: Renderer):
+    s = State(Board(num_rows, num_cols))
+    # TODO: custom ai
+    game = Game(s, execute_minimax_move(eval_1, 5), execute_player_move, renderer)
+    game.start()
+
+
+def main():
+    num_rows = 5
+    num_cols = 5
+    renderer = Renderer(num_rows, num_cols)
+
+    while True:
+        main_menu_phase()
+        gameplay_phase(num_rows, num_cols, renderer)
+
+
+if __name__ == "__main__":
+    main()
+
+
+######################################
 def temp(state):
     return random.random()
-
-
-def eval_1(state: State):
-    count1 = count2 = 0
-    for v in state.board.grid:
-        if v == 1:
-            count1 += 1
-        elif v == 2:
-            count2 += 1
-
-    return count1 - count2
 
 
 # s = State(Board(5, 5))
 # game = Game(s, execute_random_move, execute_random_move)
 # game.run_n_matches(1000, log_moves=False)
 num_rows = 5
-num_cols = 9
+num_cols = 5
 
 s = State(Board(num_rows, num_cols))
 print(s.board)
 g = Renderer(num_rows, num_cols)
-game = Game(s, execute_minimax_move(eval_1, 10), execute_player_move, renderer=g)
+game = Game(s, execute_random_move, execute_minimax_move(eval_1, 5), renderer=g)
 game.run_n_matches(3, log_moves=True)
 
 # # fmt: off
