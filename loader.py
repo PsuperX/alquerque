@@ -25,5 +25,9 @@ class Loader:
         return pygame.image.load(ASSETS_DIR / "hint.png").convert_alpha()
 
     @staticmethod
+    def get_highlight_image():
+        return pygame.image.load(ASSETS_DIR / "highlight.png").convert_alpha()
+
+    @staticmethod
     def get_font():
         pass

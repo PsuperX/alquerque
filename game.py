@@ -1,20 +1,21 @@
 from dataclasses import dataclass
 import time
 import random
+
+import pygame
 from eval_fncs import eval_1
 from state import State
 from typing import Callable
 from typing_extensions import Self
-from board import Board
+from board import Board, Eat
 from gui import Renderer
-import pygame
 
 
 @dataclass
 class Game:
     state: State
-    player1_AI: Callable[[Self], None]
-    player2_AI: Callable[[Self], None]
+    player1_AI: Callable[[Self], bool]
+    player2_AI: Callable[[Self], bool]
     renderer: Renderer | None = None
 
     def start(self, log_mov=False) -> int:
@@ -23,9 +24,15 @@ class Game:
         result = -1
         while True:
             if self.state.board.next_player == 1:
-                self.player1_AI(self)
+                did_action = self.player1_AI(self)
             else:
-                self.player2_AI(self)
+                did_action = self.player2_AI(self)
+
+            if self.renderer:
+                self.renderer.render(self.state)
+
+            if not did_action:
+                continue
 
             if log_mov:
                 print(self.state.board)
@@ -35,7 +42,7 @@ class Game:
                 break
 
             if self.renderer:
-                self.renderer.render(self.state)
+                pygame.time.wait(500)
 
         if result == 3:
             print("Nobothy wins :/")
@@ -66,25 +73,26 @@ class Game:
         # --------------------------------------------------#
 
 
-def execute_random_move(game: Game):
+def execute_random_move(game: Game) -> bool:
     move = random.choice(game.state.board.get_valid_actions())
     game.state.execute(move)
+    return True
 
 
 def execute_minimax_move(
     evaluate_func: Callable[[State], float], depth: int
-) -> Callable[[Game], None]:
-    def execute_minimax_move_aux(game: Game):
+) -> Callable[[Game], bool]:
+    def execute_minimax_move_aux(game: Game) -> bool:
         """
         updates the game state to the best possible move (uses minimax to determine it)
         """
-        best_move = None
+        best_moves = []
         best_eval = float("-inf")
         actions = game.state.board.get_valid_actions()
         if len(actions) == 1:
             # There isn't much to do and this can take a longggggg time
             game.state.execute(actions[0])
-            return
+            return True
 
         for move in actions:
             game.state.execute(move)
@@ -97,13 +105,16 @@ def execute_minimax_move(
                 game.state.board.next_player,
                 evaluate_func,
             )
-            if new_state_eval > best_eval:
-                best_move = move
-                best_eval = new_state_eval
             game.state.undo()
+            if new_state_eval > best_eval:
+                best_moves = [move]
+                best_eval = new_state_eval
+            elif new_state_eval == best_eval:
+                best_moves.append(move)
 
-        assert best_move, f"Board has no valid actions {game.state.board}"
-        game.state.execute(best_move)
+        assert len(best_moves) != 0, f"Board has no valid actions {game.state.board}"
+        game.state.execute(random.choice(best_moves))
+        return True
 
     return execute_minimax_move_aux
 
@@ -144,40 +155,45 @@ def minimax(
         return min_eval
 
 
-def execute_player_move(game: Game):
+def execute_player_move(game: Game) -> bool:
     assert game.renderer is not None, "Where is screen"
 
     board = game.state.board
+    renderer = game.renderer
     actions = board.get_valid_actions()
-    selected = []
-    while True:
-        print("Waiting player input...")
 
-        # TODO: hightlight pieces with actions
-        mouse = game.renderer.mouse_to_grid()
-
+    if mouse := game.renderer.mouse_to_grid():
+        # Undo button
         if mouse == (0, game.state.board.num_rows + 1):
+            print("Undo")
             cur_player = game.state.board.next_player
             game.state.undo()
             while game.state.board.next_player != cur_player:
                 if not game.state.undo():
-                    return
-            return
+                    return True
+            renderer.selected = []
+            return True
 
+        # Hint button
         if mouse == (game.state.board.num_cols - 1, game.state.board.num_rows + 1):
+            print("Hint")
             execute_minimax_move(eval_1, 6)(game)
-            return
+            renderer.selected = []
+            return True
 
-        for action in selected:
+        for action in renderer.selected:
             if mouse == action.get_dest():
                 game.state.execute(action)
-                return
+                if isinstance(action, Eat) and not action.changed_turn:
+                    actions = board.get_valid_actions()
+                    break
+                renderer.selected = []
+                return True
 
-        selected.clear()
+        renderer.selected.clear()
         for action in actions:
             if mouse == action.get_piece():
                 print(f"Player selected {mouse[0]}, {mouse[1]}")
-                selected.append(action)
+                renderer.selected.append(action)
 
-        print(selected)
-        pygame.time.wait(100)
+    return False

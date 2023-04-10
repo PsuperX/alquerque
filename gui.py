@@ -1,17 +1,16 @@
-from typing import Tuple
+from typing import List, Tuple
 import pygame
+from board import Action
 from loader import Loader
 from state import State
 
 
 CELL_SIZE = 100
 BORDER = (CELL_SIZE, CELL_SIZE)
-DOT_SIZE = (int(CELL_SIZE / 3), int(CELL_SIZE / 3))
+DOT_SIZE = int(CELL_SIZE // 3)
+PIECE_SIZE = int(CELL_SIZE * 0.85)
 
-PLAYER_1_COLOR = (255, 0, 95)  # red
-PLAYER_2_COLOR = (125, 205, 0)  # greenish?
-EMPTY_CELL_COLOR = (255, 255, 255)  # white
-BOARD_COLOR = 0xDCE1E7  # (0, 0, 0)  # RGB puerple?
+BOARD_COLOR = 0xDCE1E7
 LINE_COLOR = 0x434A5F
 
 
@@ -23,9 +22,12 @@ class Renderer:
     font: pygame.font.Font
     clock: pygame.time.Clock
 
+    selected: List[Action] = []
+    button_held: bool = False
+
     def __init__(self, num_rows, num_cols):
         self.width = num_cols * CELL_SIZE + BORDER[0] * 2
-        self.height = (num_rows + 1) * CELL_SIZE + BORDER[1] * 2
+        self.height = (num_rows + 1) * CELL_SIZE + BORDER[1] * 3
 
         pygame.init()  # init the game
         self.screen = pygame.display.set_mode(
@@ -43,23 +45,8 @@ class Renderer:
 
         self.draw_background_with_scroll()
         self.draw_board(state)
-
-        for row in range(state.board.num_rows):
-            for col in range(state.board.num_cols):
-                n = state.board.get_piece(col, row)
-                if n == 0:
-                    continue
-
-                player = Loader.get_player_image(n)
-                player = pygame.transform.scale(player, (CELL_SIZE, CELL_SIZE))
-
-                self.screen.blit(
-                    player,
-                    (
-                        BORDER[0] + int(col * CELL_SIZE),
-                        BORDER[1] + int(row * CELL_SIZE),
-                    ),
-                )
+        self.draw_pieces(state)
+        self.draw_selected()
 
         undo = Loader.get_undo_image()
         undo = pygame.transform.scale(undo, (CELL_SIZE, CELL_SIZE))
@@ -84,6 +71,49 @@ class Renderer:
         pygame.display.flip()  # show the board
         self.clock.tick(60)
 
+    def draw_selected(self):
+        for action in self.selected:
+            highlight = Loader.get_highlight_image()
+            highlight = pygame.transform.scale(highlight, (PIECE_SIZE, PIECE_SIZE))
+
+            self.screen.blit(
+                highlight,
+                (
+                    BORDER[0]
+                    + int(action.get_piece()[0] * CELL_SIZE)
+                    + CELL_SIZE // 2
+                    - PIECE_SIZE // 2,
+                    BORDER[1]
+                    + int(action.get_piece()[1] * CELL_SIZE)
+                    + CELL_SIZE // 2
+                    - PIECE_SIZE // 2,
+                ),
+            )
+
+    def draw_pieces(self, state: State) -> None:
+        for row in range(state.board.num_rows):
+            for col in range(state.board.num_cols):
+                n = state.board.get_piece(col, row)
+                if n == 0:
+                    continue
+
+                player = Loader.get_player_image(n)
+                player = pygame.transform.scale(player, (PIECE_SIZE, PIECE_SIZE))
+
+                self.screen.blit(
+                    player,
+                    (
+                        BORDER[0]
+                        + int(col * CELL_SIZE)
+                        + CELL_SIZE // 2
+                        - PIECE_SIZE // 2,
+                        BORDER[1]
+                        + int(row * CELL_SIZE)
+                        + CELL_SIZE // 2
+                        - PIECE_SIZE // 2,
+                    ),
+                )
+
     def draw_board(self, state: State) -> None:
         # self.screen.fill(BOARD_COLOR)
         rect = pygame.Rect(
@@ -105,18 +135,18 @@ class Renderer:
         for row in range(state.board.num_rows):
             for col in range(state.board.num_cols):
                 dot = Loader.get_dot_image()
-                dot = pygame.transform.scale(dot, DOT_SIZE)
+                dot = pygame.transform.scale(dot, (DOT_SIZE, DOT_SIZE))
                 self.screen.blit(
                     dot,
                     (
                         BORDER[0]
                         + int(col * CELL_SIZE)
                         + CELL_SIZE // 2
-                        - DOT_SIZE[0] // 2,
+                        - DOT_SIZE // 2,
                         BORDER[1]
                         + int(row * CELL_SIZE)
                         + CELL_SIZE // 2
-                        - DOT_SIZE[1] // 2,
+                        - DOT_SIZE // 2,
                     ),
                 )
 
@@ -178,18 +208,15 @@ class Renderer:
         background = Loader.get_background_image()
         self.screen.blit(background, (0, self.scroll))
 
-    def mouse_to_grid(self) -> Tuple[int, int]:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                exit()
+    def mouse_to_grid(self) -> Tuple[int, int] | None:
+        if not pygame.mouse.get_pressed()[0]:
+            self.button_held = False
+            return None
 
-        while not pygame.mouse.get_pressed()[0]:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
+        if self.button_held:
+            return None
 
-            self.clock.tick(60)
-            pygame.time.wait(100)
+        self.button_held = True
 
         mouse = pygame.mouse.get_pos()
         mouse = (mouse[0] - BORDER[0], mouse[1] - BORDER[1])
