@@ -4,6 +4,10 @@ from paths import ASSETS_DIR, MENU_DIR
 
 
 class Loader:
+    """
+    Helper class to load resources
+    """
+
     @staticmethod
     def get_player_image(n: int):
         return pygame.image.load(ASSETS_DIR / f"player{n}.png").convert_alpha()
@@ -27,6 +31,14 @@ class Loader:
     @staticmethod
     def get_highlight_image():
         return pygame.image.load(ASSETS_DIR / "highlight.png").convert_alpha()
+
+    @staticmethod
+    def get_marker_image():
+        return pygame.image.load(ASSETS_DIR / "marker.png").convert_alpha()
+
+    @staticmethod
+    def get_action_image():
+        return pygame.image.load(ASSETS_DIR / "action.png").convert_alpha()
 
     @staticmethod
     def get_font():

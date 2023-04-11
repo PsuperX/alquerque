@@ -3,6 +3,10 @@ from dataclasses import dataclass
 
 
 class Action(Protocol):
+    """
+    Everything that changes the board state must implement this protocol
+    """
+
     def execute(self) -> None:
         ...
 
@@ -10,9 +14,15 @@ class Action(Protocol):
         ...
 
     def get_piece(self) -> Tuple[int, int]:
+        """
+        Returns the coordinates of the piece that is performing the action
+        """
         ...
 
     def get_dest(self) -> Tuple[int, int]:
+        """
+        Returns the coordinates where the piece that is performing the action will end up
+        """
         ...
 
 
@@ -35,27 +45,48 @@ class Board:
         self.grid = grid or initial_board(num_rows, num_cols)
 
     def is_valid_pos(self, x: int, y: int) -> bool:
+        """
+        Bounds check
+        """
         return 0 <= x < self.num_cols and 0 <= y < self.num_rows
 
     def get_piece(self, x: int, y: int) -> int:
+        """
+        Returns piece at x, y
+        """
         if not self.is_valid_pos(x, y):
             raise IndexError(f"No such piece x:{x} y:{y}")
         return self.get_piece_unchecked(x, y)
 
     def get_piece_unchecked(self, x: int, y: int) -> int:
+        """
+        Returns piece at x, y without bounds check
+        Use at your own risk
+        """
         return self.grid[(y * self.num_cols) + x]
 
     def set_piece(self, x: int, y: int, val: int) -> None:
+        """
+        Sets piece at x, y to value x
+        """
         if not self.is_valid_pos(x, y):
             raise IndexError(f"No such piece x:{x} y:{y}")
         self.set_piece_unchecked(x, y, val)
 
     def set_piece_unchecked(self, x: int, y: int, val: int) -> None:
+        """
+        Sets piece at x, y to value x without bounds check
+        Use at your own risk
+        """
         self.grid[(y * self.num_cols) + x] = val
 
     def _get_actions_inner(
         self, x: int, y: int, dirs: List[Tuple[int, int]]
     ) -> List[Action]:
+        """
+        Utility function to calculate valid actions for a piece at x, y
+        in the direction dirs
+        """
         ret = []
         for dir in dirs:
             x2 = x + dir[0]
@@ -80,18 +111,17 @@ class Board:
 
     def even_actions(self, x: int, y: int) -> List[Action]:
         """
-        Ações para casas pares
-        Impares + Diagonais
+        Returns actions for even pieces
+        Odd + Diagonals
         """
-
         dirs = [(-1, -1), (1, 1), (-1, 1), (1, -1)]
         odd = self.odd_actions(x, y)
         return odd + self._get_actions_inner(x, y, dirs)
 
     def odd_actions(self, x: int, y: int) -> List[Action]:
         """
-        Ações para casas pares
-        Cima baixo esquerda ou direita
+        Returns actions for odd pieces
+        Up Down Left Right
         """
         dirs = [(-1, 0), (1, 0), (0, 1), (0, -1)]
         return self._get_actions_inner(x, y, dirs)

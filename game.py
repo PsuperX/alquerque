@@ -13,12 +13,20 @@ from gui import Renderer
 
 @dataclass
 class Game:
+    """
+    Holds the game settings
+    PlayerX_AI are functions that must return whether or not they changed the state
+    """
+
     state: State
     player1_AI: Callable[[Self], bool]
     player2_AI: Callable[[Self], bool]
     renderer: Renderer | None = None
 
     def start(self, log_mov=False) -> int:
+        """
+        Start a new game
+        """
         self.state = State(Board(self.state.board.num_rows, self.state.board.num_cols))
 
         result = -1
@@ -54,7 +62,7 @@ class Game:
     def run_n_matches(self, n: int, max_time: int = 3600, log_moves: bool = False):
         """
         utility function to automate n matches execution
-        should return the total distribution of players wins and draws
+        returns the total distribution of players wins and draws
         """
         start_time = time.time()
 
@@ -94,6 +102,7 @@ def execute_minimax_move(
             game.state.execute(actions[0])
             return True
 
+        player = game.state.board.next_player
         for move in actions:
             game.state.execute(move)
             new_state_eval = minimax(
@@ -102,7 +111,7 @@ def execute_minimax_move(
                 float("-inf"),
                 float("+inf"),
                 False,
-                game.state.board.next_player,
+                player,
                 evaluate_func,
             )
             game.state.undo()
@@ -129,7 +138,9 @@ def minimax(
     evaluate_func: Callable[[State], float],
 ) -> float:
     if depth == 0 or state.board.is_terminal() != 0:
-        return evaluate_func(state)
+        print(evaluate_func(state) * (1 if player == 1 else -1))
+        print(state.board, player)
+        return evaluate_func(state) * (1 if player == 1 else -1)
 
     if maximizing:
         max_eval = float("-inf")
@@ -156,11 +167,15 @@ def minimax(
 
 
 def execute_player_move(game: Game) -> bool:
+    """
+    Execute a human move
+    """
     assert game.renderer is not None, "Where is screen"
 
     board = game.state.board
     renderer = game.renderer
     actions = board.get_valid_actions()
+    renderer.actions = actions
 
     if mouse := game.renderer.mouse_to_grid():
         # Undo button
@@ -171,6 +186,7 @@ def execute_player_move(game: Game) -> bool:
             while game.state.board.next_player != cur_player:
                 if not game.state.undo():
                     return True
+            renderer.actions = []
             renderer.selected = []
             return True
 
@@ -178,6 +194,7 @@ def execute_player_move(game: Game) -> bool:
         if mouse == (game.state.board.num_cols - 1, game.state.board.num_rows + 1):
             print("Hint")
             execute_minimax_move(eval_1, 6)(game)
+            renderer.actions = []
             renderer.selected = []
             return True
 
@@ -187,6 +204,7 @@ def execute_player_move(game: Game) -> bool:
                 if isinstance(action, Eat) and not action.changed_turn:
                     actions = board.get_valid_actions()
                     break
+                renderer.actions = []
                 renderer.selected = []
                 return True
 

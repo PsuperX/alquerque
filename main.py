@@ -3,14 +3,20 @@ from state import State
 from game import Game, execute_minimax_move, execute_player_move, execute_random_move
 import random
 from gui import Renderer
-from eval_fncs import eval_1
+from eval_fncs import eval_1, eval_2
 
 
 def main_menu_phase():
+    """
+    Main menu loop
+    """
     pass
 
 
-def gameplay_phase(num_rows, num_cols, renderer: Renderer):
+def gameplay_phase(num_rows, num_cols, renderer: Renderer | None):
+    """
+    Gameplay loop
+    """
     s = State(Board(num_rows, num_cols))
     # TODO: custom ai
     game = Game(s, execute_minimax_move(eval_1, 5), execute_player_move, renderer)
@@ -21,6 +27,7 @@ def main():
     num_rows = 5
     num_cols = 5
     renderer = Renderer(num_rows, num_cols)
+    # renderer = None
 
     while True:
         main_menu_phase()
