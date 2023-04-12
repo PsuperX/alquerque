@@ -1,0 +1,1159 @@
+pygame 2.3.0 (SDL 2.24.2, Python 3.10.6)
+Hello from the pygame community. https://www.pygame.org/contribute.html
+
+=== Elapsed time: 0 seconds ===
+  Matches played: 10
+
+  Random Player: 4 victories
+  Random Player: 6 victories
+  Draws: 0
+  Win ratio (player 1): 0.40
+  Win ratio (player 2): 0.60
+
+  Turns MIN: 22
+  Turns MAX: 51
+  Turns AVG: 34.50
+
+  AVG time per game: 0.00 s
+  AVG time per turn: 0.00 s
+===============================
+
+=== Elapsed time: 4 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Minimax (eval_1, 5): 9 victories
+  Draws: 1
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.90
+
+  Turns MIN: 25
+  Turns MAX: 51
+  Turns AVG: 33.30
+
+  AVG time per game: 0.40 s
+  AVG time per turn: 0.01 s
+===============================
+
+=== Elapsed time: 55 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Minimax (eval_1, 7): 9 victories
+  Draws: 1
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.90
+
+  Turns MIN: 23
+  Turns MAX: 51
+  Turns AVG: 33.00
+
+  AVG time per game: 5.50 s
+  AVG time per turn: 0.17 s
+===============================
+
+=== Elapsed time: 10 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Minimax (eval_2, 5): 9 victories
+  Draws: 1
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.90
+
+  Turns MIN: 22
+  Turns MAX: 51
+  Turns AVG: 34.80
+
+  AVG time per game: 1.00 s
+  AVG time per turn: 0.03 s
+===============================
+
+=== Elapsed time: 106 seconds ===
+  Matches played: 10
+
+  Random Player: 1 victories
+  Minimax (eval_2, 7): 6 victories
+  Draws: 3
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.60
+
+  Turns MIN: 26
+  Turns MAX: 51
+  Turns AVG: 40.30
+
+  AVG time per game: 10.60 s
+  AVG time per turn: 0.26 s
+===============================
+
+=== Elapsed time: 5 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Negamax (eval_1, 5): 10 victories
+  Draws: 0
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 1.00
+
+  Turns MIN: 22
+  Turns MAX: 41
+  Turns AVG: 31.30
+
+  AVG time per game: 0.50 s
+  AVG time per turn: 0.02 s
+===============================
+
+=== Elapsed time: 162 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Negamax (eval_1, 7): 10 victories
+  Draws: 0
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 1.00
+
+  Turns MIN: 25
+  Turns MAX: 40
+  Turns AVG: 32.30
+
+  AVG time per game: 16.20 s
+  AVG time per turn: 0.50 s
+===============================
+
+=== Elapsed time: 11 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Negamax (eval_2, 5): 10 victories
+  Draws: 0
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 1.00
+
+  Turns MIN: 24
+  Turns MAX: 41
+  Turns AVG: 33.80
+
+  AVG time per game: 1.10 s
+  AVG time per turn: 0.03 s
+===============================
+
+=== Elapsed time: 198 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Negamax (eval_2, 7): 10 victories
+  Draws: 0
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 1.00
+
+  Turns MIN: 22
+  Turns MAX: 41
+  Turns AVG: 32.00
+
+  AVG time per game: 19.80 s
+  AVG time per turn: 0.62 s
+===============================
+
+=== Elapsed time: 26 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 0 victories
+  Minimax (eval_1, 5): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 2.60 s
+  AVG time per turn: 0.05 s
+===============================
+
+=== Elapsed time: 144 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 0 victories
+  Minimax (eval_1, 7): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 14.40 s
+  AVG time per turn: 0.28 s
+===============================
+
+=== Elapsed time: 24 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 7 victories
+  Minimax (eval_2, 5): 0 victories
+  Draws: 3
+  Win ratio (player 1): 0.70
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 26
+  Turns MAX: 51
+  Turns AVG: 43.40
+
+  AVG time per game: 2.40 s
+  AVG time per turn: 0.06 s
+===============================
+
+=== Elapsed time: 183 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 5 victories
+  Minimax (eval_2, 7): 0 victories
+  Draws: 5
+  Win ratio (player 1): 0.50
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 35
+  Turns MAX: 51
+  Turns AVG: 45.20
+
+  AVG time per game: 18.30 s
+  AVG time per turn: 0.40 s
+===============================
+
+=== Elapsed time: 29 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 3 victories
+  Negamax (eval_1, 5): 0 victories
+  Draws: 7
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 29
+  Turns MAX: 51
+  Turns AVG: 46.20
+
+  AVG time per game: 2.90 s
+  AVG time per turn: 0.06 s
+===============================
+
+=== Elapsed time: 237 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 6 victories
+  Negamax (eval_1, 7): 0 victories
+  Draws: 4
+  Win ratio (player 1): 0.60
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 44.60
+
+  AVG time per game: 23.70 s
+  AVG time per turn: 0.53 s
+===============================
+
+=== Elapsed time: 47 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 0 victories
+  Negamax (eval_2, 5): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 4.70 s
+  AVG time per turn: 0.09 s
+===============================
+
+=== Elapsed time: 550 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 2 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 8
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 42
+  Turns MAX: 51
+  Turns AVG: 49.80
+
+  AVG time per game: 55.00 s
+  AVG time per turn: 1.10 s
+===============================
+
+=== Elapsed time: 209 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 1 victories
+  Minimax (eval_1, 7): 0 victories
+  Draws: 9
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 30
+  Turns MAX: 51
+  Turns AVG: 48.90
+
+  AVG time per game: 20.90 s
+  AVG time per turn: 0.43 s
+===============================
+
+=== Elapsed time: 65 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 8 victories
+  Minimax (eval_2, 5): 0 victories
+  Draws: 2
+  Win ratio (player 1): 0.80
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 26
+  Turns MAX: 51
+  Turns AVG: 34.80
+
+  AVG time per game: 6.50 s
+  AVG time per turn: 0.19 s
+===============================
+
+=== Elapsed time: 228 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 4 victories
+  Minimax (eval_2, 7): 0 victories
+  Draws: 6
+  Win ratio (player 1): 0.40
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 31
+  Turns MAX: 51
+  Turns AVG: 43.20
+
+  AVG time per game: 22.80 s
+  AVG time per turn: 0.53 s
+===============================
+
+=== Elapsed time: 129 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 5 victories
+  Negamax (eval_1, 5): 0 victories
+  Draws: 5
+  Win ratio (player 1): 0.50
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 39
+  Turns MAX: 51
+  Turns AVG: 46.90
+
+  AVG time per game: 12.90 s
+  AVG time per turn: 0.28 s
+===============================
+
+=== Elapsed time: 609 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 3 victories
+  Negamax (eval_1, 7): 0 victories
+  Draws: 7
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 28
+  Turns MAX: 51
+  Turns AVG: 46.30
+
+  AVG time per game: 60.90 s
+  AVG time per turn: 1.32 s
+===============================
+
+=== Elapsed time: 181 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 2 victories
+  Negamax (eval_2, 5): 0 victories
+  Draws: 8
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 35
+  Turns MAX: 51
+  Turns AVG: 48.00
+
+  AVG time per game: 18.10 s
+  AVG time per turn: 0.38 s
+===============================
+
+=== Elapsed time: 916 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 7): 4 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 6
+  Win ratio (player 1): 0.40
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 29
+  Turns MAX: 51
+  Turns AVG: 47.30
+
+  AVG time per game: 91.60 s
+  AVG time per turn: 1.94 s
+===============================
+
+=== Elapsed time: 29 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 5 victories
+  Minimax (eval_2, 5): 0 victories
+  Draws: 5
+  Win ratio (player 1): 0.50
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 34
+  Turns MAX: 51
+  Turns AVG: 45.50
+
+  AVG time per game: 2.90 s
+  AVG time per turn: 0.06 s
+===============================
+
+=== Elapsed time: 232 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 2 victories
+  Minimax (eval_2, 7): 1 victories
+  Draws: 7
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.10
+
+  Turns MIN: 40
+  Turns MAX: 51
+  Turns AVG: 48.90
+
+  AVG time per game: 23.20 s
+  AVG time per turn: 0.47 s
+===============================
+
+=== Elapsed time: 26 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 2 victories
+  Negamax (eval_1, 5): 4 victories
+  Draws: 4
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 40
+  Turns MAX: 51
+  Turns AVG: 47.30
+
+  AVG time per game: 2.60 s
+  AVG time per turn: 0.05 s
+===============================
+
+=== Elapsed time: 254 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 2 victories
+  Negamax (eval_1, 7): 4 victories
+  Draws: 4
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 46.80
+
+  AVG time per game: 25.40 s
+  AVG time per turn: 0.54 s
+===============================
+
+=== Elapsed time: 55 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 2 victories
+  Negamax (eval_2, 5): 0 victories
+  Draws: 8
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 36
+  Turns MAX: 51
+  Turns AVG: 48.80
+
+  AVG time per game: 5.50 s
+  AVG time per turn: 0.11 s
+===============================
+
+=== Elapsed time: 522 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 5): 3 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 7
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 31
+  Turns MAX: 51
+  Turns AVG: 47.10
+
+  AVG time per game: 52.20 s
+  AVG time per turn: 1.11 s
+===============================
+
+=== Elapsed time: 367 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 7): 0 victories
+  Minimax (eval_2, 7): 3 victories
+  Draws: 7
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.30
+
+  Turns MIN: 35
+  Turns MAX: 51
+  Turns AVG: 47.30
+
+  AVG time per game: 36.70 s
+  AVG time per turn: 0.78 s
+===============================
+
+=== Elapsed time: 176 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 7): 2 victories
+  Negamax (eval_1, 5): 4 victories
+  Draws: 4
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 44.50
+
+  AVG time per game: 17.60 s
+  AVG time per turn: 0.40 s
+===============================
+
+=== Elapsed time: 819 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 7): 0 victories
+  Negamax (eval_1, 7): 5 victories
+  Draws: 5
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.50
+
+  Turns MIN: 25
+  Turns MAX: 51
+  Turns AVG: 44.10
+
+  AVG time per game: 81.90 s
+  AVG time per turn: 1.86 s
+===============================
+
+=== Elapsed time: 175 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 7): 0 victories
+  Negamax (eval_2, 5): 4 victories
+  Draws: 6
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 30
+  Turns MAX: 51
+  Turns AVG: 45.80
+
+  AVG time per game: 17.50 s
+  AVG time per turn: 0.38 s
+===============================
+
+=== Elapsed time: 940 seconds ===
+  Matches played: 10
+
+  Minimax (eval_2, 7): 0 victories
+  Negamax (eval_2, 7): 3 victories
+  Draws: 7
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.30
+
+  Turns MIN: 27
+  Turns MAX: 51
+  Turns AVG: 45.90
+
+  AVG time per game: 94.00 s
+  AVG time per turn: 2.05 s
+===============================
+
+=== Elapsed time: 24 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 5): 0 victories
+  Negamax (eval_1, 5): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 2.40 s
+  AVG time per turn: 0.05 s
+===============================
+
+=== Elapsed time: 114 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 5): 1 victories
+  Negamax (eval_1, 7): 0 victories
+  Draws: 9
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 44
+  Turns MAX: 51
+  Turns AVG: 50.30
+
+  AVG time per game: 11.40 s
+  AVG time per turn: 0.23 s
+===============================
+
+=== Elapsed time: 40 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 5): 0 victories
+  Negamax (eval_2, 5): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 4.00 s
+  AVG time per turn: 0.08 s
+===============================
+
+=== Elapsed time: 247 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 5): 0 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 24.70 s
+  AVG time per turn: 0.48 s
+===============================
+
+=== Elapsed time: 263 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 7): 0 victories
+  Negamax (eval_1, 7): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 26.30 s
+  AVG time per turn: 0.52 s
+===============================
+
+=== Elapsed time: 291 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 7): 0 victories
+  Negamax (eval_2, 5): 1 victories
+  Draws: 9
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.10
+
+  Turns MIN: 47
+  Turns MAX: 51
+  Turns AVG: 50.60
+
+  AVG time per game: 29.10 s
+  AVG time per turn: 0.58 s
+===============================
+
+=== Elapsed time: 382 seconds ===
+  Matches played: 10
+
+  Negamax (eval_1, 7): 1 victories
+  Negamax (eval_2, 7): 1 victories
+  Draws: 8
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.10
+
+  Turns MIN: 50
+  Turns MAX: 51
+  Turns AVG: 50.80
+
+  AVG time per game: 38.20 s
+  AVG time per turn: 0.75 s
+===============================
+
+=== Elapsed time: 52 seconds ===
+  Matches played: 10
+
+  Negamax (eval_2, 5): 0 victories
+  Negamax (eval_2, 5): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 5.20 s
+  AVG time per turn: 0.10 s
+===============================
+
+=== Elapsed time: 355 seconds ===
+  Matches played: 10
+
+  Negamax (eval_2, 5): 0 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 35.50 s
+  AVG time per turn: 0.70 s
+===============================
+
+=== Elapsed time: 475 seconds ===
+  Matches played: 10
+
+  Negamax (eval_2, 7): 0 victories
+  Negamax (eval_2, 7): 0 victories
+  Draws: 10
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 51
+  Turns MAX: 51
+  Turns AVG: 51.00
+
+  AVG time per game: 47.50 s
+  AVG time per turn: 0.93 s
+===============================
+
+=== Elapsed time: 1 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 10 victories
+  Random Player: 0 victories
+  Draws: 0
+  Win ratio (player 1): 1.00
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 24
+  Turns MAX: 51
+  Turns AVG: 36.10
+
+  AVG time per game: 0.10 s
+  AVG time per turn: 0.00 s
+===============================
+
+=== Elapsed time: 10 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 0 victories
+  Minimax (eval_1, 5): 7 victories
+  Draws: 3
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.70
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 40.20
+
+  AVG time per game: 1.00 s
+  AVG time per turn: 0.02 s
+===============================
+
+=== Elapsed time: 90 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 0 victories
+  Minimax (eval_1, 7): 5 victories
+  Draws: 5
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.50
+
+  Turns MIN: 20
+  Turns MAX: 51
+  Turns AVG: 41.60
+
+  AVG time per game: 9.00 s
+  AVG time per turn: 0.22 s
+===============================
+
+=== Elapsed time: 12 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 3 victories
+  Minimax (eval_2, 5): 2 victories
+  Draws: 5
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 22
+  Turns MAX: 51
+  Turns AVG: 44.10
+
+  AVG time per game: 1.20 s
+  AVG time per turn: 0.03 s
+===============================
+
+=== Elapsed time: 140 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 4 victories
+  Minimax (eval_2, 7): 4 victories
+  Draws: 2
+  Win ratio (player 1): 0.40
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 28
+  Turns MAX: 51
+  Turns AVG: 40.80
+
+  AVG time per game: 14.00 s
+  AVG time per turn: 0.34 s
+===============================
+
+=== Elapsed time: 18 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 2 victories
+  Negamax (eval_1, 5): 2 victories
+  Draws: 6
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 30
+  Turns MAX: 51
+  Turns AVG: 48.00
+
+  AVG time per game: 1.80 s
+  AVG time per turn: 0.04 s
+===============================
+
+=== Elapsed time: 343 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 2 victories
+  Negamax (eval_1, 7): 5 victories
+  Draws: 3
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.50
+
+  Turns MIN: 25
+  Turns MAX: 51
+  Turns AVG: 42.20
+
+  AVG time per game: 34.30 s
+  AVG time per turn: 0.81 s
+===============================
+
+=== Elapsed time: 25 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 2 victories
+  Negamax (eval_2, 5): 5 victories
+  Draws: 3
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.50
+
+  Turns MIN: 24
+  Turns MAX: 51
+  Turns AVG: 38.60
+
+  AVG time per game: 2.50 s
+  AVG time per turn: 0.06 s
+===============================
+
+=== Elapsed time: 187 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 1 victories
+  Negamax (eval_2, 7): 8 victories
+  Draws: 1
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.80
+
+  Turns MIN: 23
+  Turns MAX: 51
+  Turns AVG: 37.80
+
+  AVG time per game: 18.70 s
+  AVG time per turn: 0.49 s
+===============================
+
+=== Elapsed time: 2 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 2 victories
+  Minimax_tt (eval_1, 5): 4 victories
+  Draws: 4
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 28
+  Turns MAX: 51
+  Turns AVG: 41.80
+
+  AVG time per game: 0.20 s
+  AVG time per turn: 0.00 s
+===============================
+
+=== Elapsed time: 11 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 1 victories
+  Minimax_tt (eval_1, 7): 2 victories
+  Draws: 7
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 46.30
+
+  AVG time per game: 1.10 s
+  AVG time per turn: 0.02 s
+===============================
+
+=== Elapsed time: 5 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 1 victories
+  Minimax_tt (eval_2, 5): 0 victories
+  Draws: 9
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 44
+  Turns MAX: 51
+  Turns AVG: 50.30
+
+  AVG time per game: 0.50 s
+  AVG time per turn: 0.01 s
+===============================
+
+=== Elapsed time: 26 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 5): 0 victories
+  Minimax_tt (eval_2, 7): 2 victories
+  Draws: 8
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 34
+  Turns MAX: 51
+  Turns AVG: 47.90
+
+  AVG time per game: 2.60 s
+  AVG time per turn: 0.05 s
+===============================
+
+=== Elapsed time: 17 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 7): 1 victories
+  Minimax_tt (eval_1, 7): 6 victories
+  Draws: 3
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.60
+
+  Turns MIN: 27
+  Turns MAX: 51
+  Turns AVG: 43.30
+
+  AVG time per game: 1.70 s
+  AVG time per turn: 0.04 s
+===============================
+
+=== Elapsed time: 19 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 7): 3 victories
+  Minimax_tt (eval_2, 5): 0 victories
+  Draws: 7
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 36
+  Turns MAX: 51
+  Turns AVG: 47.90
+
+  AVG time per game: 1.90 s
+  AVG time per turn: 0.04 s
+===============================
+
+=== Elapsed time: 40 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 7): 3 victories
+  Minimax_tt (eval_2, 7): 0 victories
+  Draws: 7
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 36
+  Turns MAX: 51
+  Turns AVG: 47.70
+
+  AVG time per game: 4.00 s
+  AVG time per turn: 0.08 s
+===============================
+
+=== Elapsed time: 7 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_2, 5): 2 victories
+  Minimax_tt (eval_2, 5): 0 victories
+  Draws: 8
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.00
+
+  Turns MIN: 50
+  Turns MAX: 51
+  Turns AVG: 50.90
+
+  AVG time per game: 0.70 s
+  AVG time per turn: 0.01 s
+===============================
+
+=== Elapsed time: 20 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_2, 5): 2 victories
+  Minimax_tt (eval_2, 7): 1 victories
+  Draws: 7
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.10
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 47.50
+
+  AVG time per game: 2.00 s
+  AVG time per turn: 0.04 s
+===============================
+
+=== Elapsed time: 39 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_2, 7): 0 victories
+  Minimax_tt (eval_2, 7): 2 victories
+  Draws: 8
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 38
+  Turns MAX: 51
+  Turns AVG: 48.50
+
+  AVG time per game: 3.90 s
+  AVG time per turn: 0.08 s
+===============================
+
+=== Elapsed time: 274 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 10): 2 victories
+  Minimax_tt (eval_1, 10): 2 victories
+  Draws: 6
+  Win ratio (player 1): 0.20
+  Win ratio (player 2): 0.20
+
+  Turns MIN: 33
+  Turns MAX: 51
+  Turns AVG: 46.20
+
+  AVG time per game: 27.40 s
+  AVG time per turn: 0.59 s
+===============================
+
+=== Elapsed time: 399 seconds ===
+  Matches played: 10
+
+  Minimax (eval_1, 5): 0 victories
+  Minimax_tt (eval_1, 10): 4 victories
+  Draws: 6
+  Win ratio (player 1): 0.00
+  Win ratio (player 2): 0.40
+
+  Turns MIN: 30
+  Turns MAX: 51
+  Turns AVG: 44.40
+
+  AVG time per game: 39.90 s
+  AVG time per turn: 0.90 s
+===============================
+
+=== Elapsed time: 255 seconds ===
+  Matches played: 10
+
+  Minimax_tt (eval_1, 10): 3 victories
+  Minimax_tt (eval_1, 10): 3 victories
+  Draws: 4
+  Win ratio (player 1): 0.30
+  Win ratio (player 2): 0.30
+
+  Turns MIN: 24
+  Turns MAX: 51
+  Turns AVG: 42.30
+
+  AVG time per game: 25.50 s
+  AVG time per turn: 0.60 s
+===============================
+
+=== Elapsed time: 86 seconds ===
+  Matches played: 10
+
+  Random Player: 0 victories
+  Minimax_tt (eval_1, 10): 9 victories
+  Draws: 1
+  Win ratio (player 1): 0.10
+  Win ratio (player 2): 0.90
+
+  Turns MIN: 21
+  Turns MAX: 51
+  Turns AVG: 30.60
+
+  AVG time per game: 8.60 s
+  AVG time per turn: 0.28 s
+===============================
+

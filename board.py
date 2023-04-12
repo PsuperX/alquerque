@@ -44,6 +44,9 @@ class Board:
         self.next_player = next_player
         self.grid = grid or initial_board(num_rows, num_cols)
 
+    def __hash__(self):
+        return hash((tuple(self.grid), self.next_player))
+
     def is_valid_pos(self, x: int, y: int) -> bool:
         """
         Bounds check
@@ -161,6 +164,7 @@ class Board:
         0 - Not terminal continue game
         1 - Player_1 wins
         2 - Player_2 wins
+        3 - Draw
         """
 
         # 0-continue, 1- P1 win 2- P2 win 3- Draw

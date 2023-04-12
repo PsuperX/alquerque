@@ -1,14 +1,16 @@
 from dataclasses import dataclass
 import time
 import random
-
 import pygame
 from eval_fncs import eval_1
 from state import State
-from typing import Callable
+from typing import Callable, List
 from typing_extensions import Self
-from board import Board, Eat
+from board import Board, Eat, Action
 from gui import Renderer
+
+
+MAX_TURNS = 50
 
 
 @dataclass
@@ -23,14 +25,22 @@ class Game:
     player2_AI: Callable[[Self], bool]
     renderer: Renderer | None = None
 
+    player1_AI_name: str = "Player 1"
+    player2_AI_name: str = "Player 2"
+
     def start(self, log_mov=False) -> int:
         """
         Start a new game
         """
         self.state = State(Board(self.state.board.num_rows, self.state.board.num_cols))
 
+        if self.renderer:
+            self.renderer.render(self.state)
+            pygame.time.wait(500)
+
         result = -1
         while True:
+            break
             if self.state.board.next_player == 1:
                 did_action = self.player1_AI(self)
             else:
@@ -49,13 +59,20 @@ class Game:
             if result != 0:
                 break
 
+            if self.state.cur_hist > MAX_TURNS:
+                result = 3
+                break
+
             if self.renderer:
                 pygame.time.wait(500)
 
-        if result == 3:
-            print("Nobothy wins :/")
-        else:
-            print(f"Player {result} Wins :D")
+        if self.renderer:
+            if result == 3:
+                self.renderer.show_title("Nobody wins")
+            else:
+                self.renderer.show_title(f"Player {result} Wins")
+            pygame.display.flip()
+            pygame.time.wait(1000)
 
         return result
 
@@ -68,15 +85,34 @@ class Game:
 
         results = [0, 0, 0]  # [player 1 victories, player 2 victories, draws]
 
-        while n > 0 and time.time() - start_time < max_time:
-            n -= 1
+        turns = []
+        remaining = n
+        while remaining > 0 and time.time() - start_time < max_time:
+            remaining -= 1
             result = self.start(log_moves)
             results[result - 1] += 1
+            turns.append(self.state.cur_hist)
 
-        print("\n=== Elapsed time: %s seconds ===" % (int(time.time() - start_time)))
-        print(f"  Player 1: {results[0]} victories")
-        print(f"  Player 2: {results[1]} victories")
+        # Statistics
+        elapsed = int(time.time() - start_time)
+        turns_avg = sum(turns) / (n - remaining)
+
+        print("\n=== Elapsed time: %s seconds ===" % (elapsed))
+        print(f"  Matches played: {n-remaining}")
+        print()
+        print(f"  {self.player1_AI_name}: {results[0]} victories")
+        print(f"  {self.player2_AI_name}: {results[1]} victories")
         print(f"  Draws: {results[2]} ")
+        print(f"  Win ratio (player 1): {results[0]/(n-remaining):.2f}")
+        print(f"  Win ratio (player 2): {results[1]/(n-remaining):.2f}")
+        print()
+        print(f"  Turns MIN: {min(turns)}")
+        print(f"  Turns MAX: {max(turns)}")
+        print(f"  Turns AVG: {turns_avg:.2f}")
+        print()
+        print(f"  AVG time per game: {elapsed/(n-remaining):.2f} s")
+        print(f"  AVG time per turn: {elapsed/sum(turns):.2f} s")
+
         print("===============================")
         # --------------------------------------------------#
 
@@ -137,10 +173,16 @@ def minimax(
     player: int,
     evaluate_func: Callable[[State], float],
 ) -> float:
-    if depth == 0 or state.board.is_terminal() != 0:
-        print(evaluate_func(state) * (1 if player == 1 else -1))
-        print(state.board, player)
+    # if depth == 0 or state.board.is_terminal() != 0:
+    #     return evaluate_func(state) * (1 if player == 1 else -1)
+    if depth == 0:
         return evaluate_func(state) * (1 if player == 1 else -1)
+    if res := state.board.is_terminal() != 0:
+        if res == 1:
+            return float("inf") * (1 if player == 1 else -1)
+        elif res == 2:
+            return float("-inf") * (1 if player == 1 else -1)
+        return 0
 
     if maximizing:
         max_eval = float("-inf")
@@ -166,9 +208,184 @@ def minimax(
         return min_eval
 
 
+def execute_minimax_move_with_transposition(
+    evaluate_func: Callable[[State], float], max_depth: int
+) -> Callable[[Game], bool]:
+    def execute_minimax_move_aux_with_transposition(game: Game) -> bool:
+        """
+        updates the game state to the best possible move (uses minimax to determine it)
+        """
+        best_moves = []
+        best_eval = float("-inf")
+        for depth in range(1, max_depth):
+            actions = game.state.board.get_valid_actions()
+            if len(actions) == 1:
+                # There isn't much to do and this can take a longggggg time
+                game.state.execute(actions[0])
+                return True
+
+            player = game.state.board.next_player
+            for move in actions:
+                game.state.execute(move)
+                new_state_eval = minimax_with_transposition(
+                    game.state,
+                    depth - 1,
+                    float("-inf"),
+                    float("+inf"),
+                    False,
+                    player,
+                    evaluate_func,
+                )
+                game.state.undo()
+                if new_state_eval > best_eval:
+                    best_moves = [move]
+                    best_eval = new_state_eval
+                elif new_state_eval == best_eval:
+                    best_moves.append(move)
+
+        assert len(best_moves) != 0, f"Board has no valid actions {game.state.board}"
+        game.state.execute(random.choice(best_moves))
+        return True
+
+    return execute_minimax_move_aux_with_transposition
+
+
+def minimax_with_transposition(
+    state: State,
+    depth: int,
+    alpha: float,
+    beta: float,
+    maximizing: bool,
+    player: int,
+    evaluate_func: Callable[[State], float],
+) -> float:
+    # if depth == 0 or state.board.is_terminal() != 0:
+    #     return evaluate_func(state) * (1 if player == 1 else -1)
+    if depth == 0:
+        return evaluate_func(state) * (1 if player == 1 else -1)
+    if res := state.board.is_terminal() != 0:
+        if res == 1:
+            return float("inf") * (1 if player == 1 else -1)
+        elif res == 2:
+            return float("-inf") * (1 if player == 1 else -1)
+        return 0
+
+    board_hash = hash(state.board)
+    if board_hash in state.transposition_table:
+        actions = state.transposition_table[board_hash]
+    else:
+        actions = (state.board.get_valid_actions(), 0)
+
+    if maximizing:
+        max_eval = float("-inf")
+        evals = []
+        for move in actions[0]:
+            state.execute(move)
+            eval = minimax_with_transposition(
+                state, depth - 1, alpha, beta, False, player, evaluate_func
+            )
+            state.undo()
+            evals.append((move, eval))
+            max_eval = max(max_eval, eval)
+            alpha = max(alpha, eval)
+            if beta <= alpha:
+                break
+
+        evals.sort(key=lambda x: x[1], reverse=True)
+        if actions[1] < depth:
+            state.transposition_table[board_hash] = ([eval[0] for eval in evals], depth)
+
+        return max_eval
+    else:
+        min_eval = float("inf")
+        evals = []
+        for move in reversed(actions[0]):
+            state.execute(move)
+            eval = minimax_with_transposition(
+                state, depth - 1, alpha, beta, True, player, evaluate_func
+            )
+            state.undo()
+            evals.append((move, eval))
+            min_eval = min(min_eval, eval)
+            beta = min(beta, eval)
+            if beta <= alpha:
+                break
+
+        evals.sort(key=lambda x: x[1])
+        if actions[1] < depth:
+            state.transposition_table[board_hash] = ([eval[0] for eval in evals], depth)
+
+        return min_eval
+
+
+def execute_negamax_move(
+    evaluate_func: Callable[[State], float], depth: int
+) -> Callable[[Game], bool]:
+    def execute_negamax_move_aux(game: Game) -> bool:
+        """
+        updates the game state to the best possible move (uses negamax to determine it)
+        """
+        best_moves = []
+        best_eval = float("-inf")
+        actions = game.state.board.get_valid_actions()
+        if len(actions) == 1:
+            # There isn't much to do and this can take a longggggg time
+            game.state.execute(actions[0])
+            return True
+
+        player = game.state.board.next_player
+        for move in actions:
+            game.state.execute(move)
+            new_state_eval = negamax(
+                game.state,
+                depth - 1,
+                float("-inf"),
+                float("+inf"),
+                player,
+                evaluate_func,
+            )
+            game.state.undo()
+            if new_state_eval > best_eval:
+                best_moves = [move]
+                best_eval = new_state_eval
+            elif new_state_eval == best_eval:
+                best_moves.append(move)
+
+        assert len(best_moves) != 0, f"Board has no valid actions {game.state.board}"
+        game.state.execute(random.choice(best_moves))
+        return True
+
+    return execute_negamax_move_aux
+
+
+def negamax(
+    state: State,
+    depth: int,
+    alpha: float,
+    beta: float,
+    player: int,
+    evaluate_func: Callable[[State], float],
+) -> float:
+    if depth == 0 or state.board.is_terminal() != 0:
+        return evaluate_func(state) * (1 if player == 1 else -1)
+
+    score = float("-inf")
+    for move in state.board.get_valid_actions():
+        state.execute(move)
+        score = max(
+            score, -negamax(state, depth - 1, -beta, -alpha, player, evaluate_func)
+        )
+        state.undo()
+        alpha = max(alpha, score)
+        if alpha > beta:
+            break
+
+    return score
+
+
 def execute_player_move(game: Game) -> bool:
     """
-    Execute a human move
+    Execute a human move and handle ui buttons
     """
     assert game.renderer is not None, "Where is screen"
 

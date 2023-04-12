@@ -41,5 +41,9 @@ class Loader:
         return pygame.image.load(ASSETS_DIR / "action.png").convert_alpha()
 
     @staticmethod
+    def get_intro_background_image():
+        return pygame.image.load(MENU_DIR / "bg.jpg").convert_alpha()
+
+    @staticmethod
     def get_font():
         pass

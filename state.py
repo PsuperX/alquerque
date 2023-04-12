@@ -1,3 +1,4 @@
+from typing import Dict, Tuple
 from board import Action, Board, List
 from dataclasses import dataclass, field
 
@@ -11,6 +12,10 @@ class State:
     board: Board
     history: List[Action] = field(default_factory=list)
     cur_hist: int = 0
+
+    transposition_table: Dict[int, Tuple[List[Action], int]] = field(
+        default_factory=dict
+    )
 
     def execute(self, action: Action):
         """
