@@ -40,7 +40,6 @@ class Game:
 
         result = -1
         while True:
-            break
             if self.state.board.next_player == 1:
                 did_action = self.player1_AI(self)
             else:
