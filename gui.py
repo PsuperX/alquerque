@@ -3,15 +3,8 @@ import pygame
 from board import Action
 from loader import Loader
 from state import State
+from constants import CELL_SIZE, BORDER, DOT_SIZE, PIECE_SIZE, BOARD_COLOR, LINE_COLOR
 
-
-CELL_SIZE = 100
-BORDER = (CELL_SIZE, CELL_SIZE)
-DOT_SIZE = int(CELL_SIZE // 3)
-PIECE_SIZE = int(CELL_SIZE * 0.85)
-
-BOARD_COLOR = 0xDCE1E7
-LINE_COLOR = 0x434A5F
 
 jogo = [[0, 0], [0, 0]]
 
@@ -30,6 +23,9 @@ def players_setings(posicao_rato, rec_desejado, jogo, width, height):
 
 
 def minmaxdif(posicao_rato, rec_das_dif, jogo, width, height):
+    """
+    Minimax depth selection
+    """
     posicaox = 1
     posicaoy = {
         height * 2 / 5 + 96: 2,
@@ -50,7 +46,10 @@ def minmaxdif(posicao_rato, rec_das_dif, jogo, width, height):
     return False
 
 
-def is_pressede(butt, pos, pressed, jogo):
+def is_pressed(butt, pos, pressed, jogo):
+    """
+    Checks if button is being pressed
+    """
     if jogo[0][0] != 0 and jogo[1][0] != 0:
         if butt.collidepoint(pos):
             if pressed[0]:
@@ -93,6 +92,9 @@ class Renderer:
         self.font3 = pygame.font.Font(None, 25)
 
     def show_title(self, text: str):
+        """
+        Displays a message in the center of the screen
+        """
         t = self.font.render(text, True, "black")
         rect = t.get_rect()
 
@@ -353,6 +355,9 @@ class Renderer:
         return (x, y)
 
     def intro_screen(self):
+        """
+        Display player selection screen
+        """
         intro = True
 
         pygame.display.set_caption("ALQUERQUE")
@@ -436,11 +441,12 @@ class Renderer:
                 if event.type == pygame.QUIT:
                     intro = False
                     self.running = False
+                    exit()
 
             mouse_pos = pygame.mouse.get_pos()
             mouse_pressed = pygame.mouse.get_pressed()
 
-            if is_pressede(start, mouse_pos, mouse_pressed, jogo):
+            if is_pressed(start, mouse_pos, mouse_pressed, jogo):
                 intro = False
 
             self.screen.blit(Loader.get_intro_background_image(), (0, 0))

@@ -4,13 +4,11 @@ import random
 import pygame
 from eval_fncs import eval_1
 from state import State
-from typing import Callable, List
+from typing import Callable
 from typing_extensions import Self
-from board import Board, Eat, Action
+from board import Board, Eat
 from gui import Renderer
-
-
-MAX_TURNS = 50
+from constants import MAX_TURNS
 
 
 @dataclass
@@ -71,7 +69,7 @@ class Game:
             else:
                 self.renderer.show_title(f"Player {result} Wins")
             pygame.display.flip()
-            pygame.time.wait(1000)
+            pygame.time.wait(2000)
 
         return result
 
@@ -172,16 +170,8 @@ def minimax(
     player: int,
     evaluate_func: Callable[[State], float],
 ) -> float:
-    # if depth == 0 or state.board.is_terminal() != 0:
-    #     return evaluate_func(state) * (1 if player == 1 else -1)
-    if depth == 0:
+    if depth == 0 or state.board.is_terminal() != 0:
         return evaluate_func(state) * (1 if player == 1 else -1)
-    if res := state.board.is_terminal() != 0:
-        if res == 1:
-            return float("inf") * (1 if player == 1 else -1)
-        elif res == 2:
-            return float("-inf") * (1 if player == 1 else -1)
-        return 0
 
     if maximizing:
         max_eval = float("-inf")
@@ -258,16 +248,8 @@ def minimax_with_transposition(
     player: int,
     evaluate_func: Callable[[State], float],
 ) -> float:
-    # if depth == 0 or state.board.is_terminal() != 0:
-    #     return evaluate_func(state) * (1 if player == 1 else -1)
-    if depth == 0:
+    if depth == 0 or state.board.is_terminal() != 0:
         return evaluate_func(state) * (1 if player == 1 else -1)
-    if res := state.board.is_terminal() != 0:
-        if res == 1:
-            return float("inf") * (1 if player == 1 else -1)
-        elif res == 2:
-            return float("-inf") * (1 if player == 1 else -1)
-        return 0
 
     board_hash = hash(state.board)
     if board_hash in state.transposition_table:
